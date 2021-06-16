@@ -1,10 +1,21 @@
 import { FormControl, List, TextField } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import "./App.css";
+import styles from "./App.module.css";
 import { db } from "./firebase";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import TaskItem from "./TaskItem";
+import { makeStyles } from "@material-ui/styles";
 
+const useStyles = makeStyles({
+  field: {
+    marginTop: 30,
+    marginBottom: 20,
+  },
+  list: {
+    margin: "auto",
+    width: "40%",
+  },
+})
 const App: React.FC = () => {
   const [tasks, setTasks] = useState([{ id: "", title: "" }]);
   const [input, setInput] = useState("");
@@ -23,7 +34,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="App">
+    <div className={styles.app_root}>
       <h1>Todo App by React/Firebase</h1>
       <FormControl>
         <TextField
@@ -37,7 +48,7 @@ const App: React.FC = () => {
           }
         />
       </FormControl>
-      <button disabled={!input} onClick={newTask}>
+      <button className={styles.app_icon} disabled={!input} onClick={newTask}>
         <AddToPhotosIcon />
       </button>
 
