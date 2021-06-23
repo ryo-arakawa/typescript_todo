@@ -6,6 +6,8 @@ import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import TaskItem from "./TaskItem";
 import { makeStyles } from "@material-ui/styles";
 
+import { auth} from "./firebase";
+
 const useStyles = makeStyles({
   field: {
     marginTop: 30,
@@ -16,9 +18,17 @@ const useStyles = makeStyles({
     width: "40%",
   },
 })
-const App: React.FC = () => {
+const App: React.FC = (props: any) => {
   const [tasks, setTasks] = useState([{ id: "", title: "" }]);
   const [input, setInput] = useState("");
+
+  useEffect(()=> {
+    const unSub = auth.onAuthStateChanged((user)=>{
+      !user && props.history.puth("login")
+    });
+    return () => unSub();
+  }, [props.history]);
+
   useEffect(() => {
     const unSub = db.collection("tasks").onSnapshot((snapshot) => {
       setTasks(
